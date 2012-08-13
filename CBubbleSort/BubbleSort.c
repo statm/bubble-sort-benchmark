@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
-//µ¼ÈëAS3°ü
+//å¯¼å…¥AS3åŒ…
 #include "AS3.h"
 
-//Ã°ÅİÅÅĞò
+//å†’æ³¡æ’åº
 void BubbleSort(int *array, int array_size)
 {
   int tmp;
@@ -26,32 +26,32 @@ void BubbleSort(int *array, int array_size)
 
 static AS3_Val sort(void* self, AS3_Val args)
 {
-	//»ñµÃ´«½øÀ´µÄÊı×é
+	//è·å¾—ä¼ è¿›æ¥çš„æ•°ç»„
 	AS3_Val asArray = NULL;
     AS3_ArrayValue(args, "AS3ValType", &asArray);
-    // µÃµ½ Array µÄshift·½·¨
+    // å¾—åˆ° Array çš„shiftæ–¹æ³•
     AS3_Val shift_function = AS3_GetS(asArray, "shift");
-	//µÃµ½Êı×éµÄ³¤¶È
+	//å¾—åˆ°æ•°ç»„çš„é•¿åº¦
 	AS3_Val actionscript_array_size =  AS3_GetS(asArray, "length");
     int array_size = AS3_IntValue(actionscript_array_size);
-	//´´½¨Ò»¸öcÓïÑÔµÄÊı×é
+	//åˆ›å»ºä¸€ä¸ªcè¯­è¨€çš„æ•°ç»„
 	int val[array_size];
-    // µ÷ÓÃÉÏÃæµÃµ½µÄ·½·¨°Ñas3Êı×é×ªÎªcÓïÑÔµÄÊı×é
+    // è°ƒç”¨ä¸Šé¢å¾—åˆ°çš„æ–¹æ³•æŠŠas3æ•°ç»„è½¬ä¸ºcè¯­è¨€çš„æ•°ç»„
 	int i;
 	AS3_Val emptyParams = AS3_Array("");
     for(i = 0; i < array_size; i++)
     {
-		//Ö´ĞĞAS3µÄ·½·¨£¬µÚÒ»¸ö²ÎÊıÎª·½·¨Ãû£¬µÚ¶ş¸ö²ÎÊıÎª·½·¨¶ÔÓ¦µÄ¶ÔÏó£¬µÚÈı¸öÎª·½·¨²ÎÊıÊı×é
+		//æ‰§è¡ŒAS3çš„æ–¹æ³•ï¼Œç¬¬ä¸€ä¸ªå‚æ•°ä¸ºæ–¹æ³•åï¼Œç¬¬äºŒä¸ªå‚æ•°ä¸ºæ–¹æ³•å¯¹åº”çš„å¯¹è±¡ï¼Œç¬¬ä¸‰ä¸ªä¸ºæ–¹æ³•å‚æ•°æ•°ç»„
         AS3_Val temp_actionscript_Int = AS3_Call(shift_function, asArray, emptyParams);
         int tmp = AS3_IntValue(temp_actionscript_Int);
 		val[i] = tmp;
         AS3_Release(temp_actionscript_Int);
     }
     AS3_Release(shift_function);
-	//¿ªÊ¼ÅÅĞò
+	//å¼€å§‹æ’åº
 	BubbleSort(val,array_size);
-	//½«ÅÅºÃĞòµÄÊı×é×ªÎªas3µÄÊı×é
-	//»ñµÃÊı×éµÄPUSH·½·¨
+	//å°†æ’å¥½åºçš„æ•°ç»„è½¬ä¸ºas3çš„æ•°ç»„
+	//è·å¾—æ•°ç»„çš„PUSHæ–¹æ³•
 	AS3_Val push_function = AS3_GetS(asArray, "push");
     int j;
     for( j = 0; j < array_size ; j++)
@@ -66,17 +66,17 @@ static AS3_Val sort(void* self, AS3_Val args)
 
 int main()
 {
-	//´´½¨Ò»¸öÍ¬²½µÄ»Øµ÷º¯Êı¶ÔÏó£¬µÚÒ»¸ö²ÎÊıÎªº¯ÊıµÄ×´Ì¬£¬µÚ¶ş¸ö²ÎÊıÊÇº¯Êı
+	//åˆ›å»ºä¸€ä¸ªåŒæ­¥çš„å›è°ƒå‡½æ•°å¯¹è±¡ï¼Œç¬¬ä¸€ä¸ªå‚æ•°ä¸ºå‡½æ•°çš„çŠ¶æ€ï¼Œç¬¬äºŒä¸ªå‚æ•°æ˜¯å‡½æ•°
 	AS3_Val sortTest = AS3_Function( NULL, sort );
 
-	// ´´½¨Ò»¸ö³ÖÓĞº¯ÊıÒıÓÃµÄ¶ÔÏó
+	// åˆ›å»ºä¸€ä¸ªæŒæœ‰å‡½æ•°å¼•ç”¨çš„å¯¹è±¡
 	AS3_Val result = AS3_Object( "sort:AS3ValType", sortTest);
 
-	// ÊÍ·Å¼ÆÊıÆ÷
+	// é‡Šæ”¾è®¡æ•°å™¨
 	AS3_Release( sortTest );
 
-	// ¸Ã·½·¨¸æÖªĞéÄâ»úÄãµÄ¿âÒÑ¾­³õÊ¼»¯Íê±Ï£¬²ÎÊıÊÇ¶ÔÏó,°üº¬ÄãµÄ¿âº¯Êı
-	// Õâ¸öº¯Êı²»»á·µ»Ø,ËùÒÔ¸Ãº¯Êıºó²»ĞèÒªĞ´´úÂë¡£Èç¹ûCÀïÃæ²»µ÷ÓÃ¸Ãº¯Êı,ĞéÄâ»ú²»»áÖ´ĞĞÈÎºÎCÒÔÍâµÄ´úÂë
+	// è¯¥æ–¹æ³•å‘ŠçŸ¥è™šæ‹Ÿæœºä½ çš„åº“å·²ç»åˆå§‹åŒ–å®Œæ¯•ï¼Œå‚æ•°æ˜¯å¯¹è±¡,åŒ…å«ä½ çš„åº“å‡½æ•°
+	// è¿™ä¸ªå‡½æ•°ä¸ä¼šè¿”å›,æ‰€ä»¥è¯¥å‡½æ•°åä¸éœ€è¦å†™ä»£ç ã€‚å¦‚æœCé‡Œé¢ä¸è°ƒç”¨è¯¥å‡½æ•°,è™šæ‹Ÿæœºä¸ä¼šæ‰§è¡Œä»»ä½•Cä»¥å¤–çš„ä»£ç 
 	AS3_LibInit( result );
 
 	// should never get here!
